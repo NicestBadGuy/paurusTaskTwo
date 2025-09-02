@@ -1,38 +1,66 @@
 package si.paurus.assignment.tasktwo.repository;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.time.OffsetDateTime;
+import java.util.UUID;
 
 @Entity
+@Table(indexes = {@Index(name = "idx_match_id", columnList = "matchId")})
 public class MatchEventEntity {
     @Id
-    private Long matchId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
-    private Long marketId;
-    private Long outcomeId;
+    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    private OffsetDateTime dateInsert;
 
+    private String matchId;
 
-    public void setMatchId(Long matchId) {
-        this.matchId = matchId;
+    private Integer marketId;
+
+    private String outcomeId;
+
+    private String specifiers;
+
+    @PrePersist
+    public void prePersist() {
+        dateInsert = OffsetDateTime.now();
     }
 
-    public Long getMatchId() {
+    public String getMatchId() {
         return matchId;
     }
 
-    public Long getMarketId() {
+    public void setMatchId(String matchId) {
+        this.matchId = matchId;
+    }
+
+    public Integer getMarketId() {
         return marketId;
     }
 
-    public void setMarketId(Long marketId) {
+    public void setMarketId(Integer marketId) {
         this.marketId = marketId;
     }
 
-    public Long getOutcomeId() {
+    public String getOutcomeId() {
         return outcomeId;
     }
 
-    public void setOutcomeId(Long outcomeId) {
+    public void setOutcomeId(String outcomeId) {
         this.outcomeId = outcomeId;
+    }
+
+    public String getSpecifiers() {
+        return specifiers;
+    }
+
+    public void setSpecifiers(String specifiers) {
+        this.specifiers = specifiers;
+    }
+
+    public OffsetDateTime getDateInsert() {
+        return dateInsert;
     }
 }

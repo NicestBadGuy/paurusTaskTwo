@@ -42,7 +42,120 @@ CLI:
 
 ### Example requests
 
-lorem ipsum
+I concluded tha I should make two implementations. First is for presenting my solution of "sharing another perspective". And the second one is reading from file, insertion into database and reading from it.
+How to run first:
+
+Start service. Open swagger (or use postman) and execute POST on /api/v1/testMatch/events with this content: 
+~~~
+[
+    {
+        "matchId": "3",
+        "eventType": 370,
+        "eventSeq": 3
+    },
+    {
+        "matchId": "3",
+        "eventType": 369,
+        "eventSeq": 2
+    },
+    {
+        "matchId": "2",
+        "eventType": 369,
+        "eventSeq": 2
+    },
+    {
+        "matchId": "1",
+        "eventType": 369,
+        "eventSeq": 4
+    },
+    {
+        "matchId": "1",
+        "eventType": 370,
+        "eventSeq": 3
+    },
+    {
+        "matchId": "1",
+        "eventType": 370,
+        "eventSeq": 2
+    },
+    {
+        "matchId": "3",
+        "eventType": 370,
+        "eventSeq": 1
+    },
+    {
+        "matchId": "2",
+        "eventType": 369,
+        "eventSeq": 1
+    },
+    {
+        "matchId": "1",
+        "eventType": 369,
+        "eventSeq": 1
+    }
+]
+~~~
+I've hardcoded 369 with Thread.sleep(). Result can be seen with execution of GET on /api/v1/testMatch/{matchId}
+~~~
+[
+  {
+    "matchId": "1",
+    "eventType": 369,
+    "eventSeq": 1,
+    "createDate": "2025-09-02T23:14:03.3960337+02:00",
+    "addedToResult": "2025-09-02T23:14:04.4898531+02:00"
+  },
+  {
+    "matchId": "1",
+    "eventType": 370,
+    "eventSeq": 2,
+    "createDate": "2025-09-02T23:14:03.3960337+02:00",
+    "addedToResult": "2025-09-02T23:14:05.5037862+02:00"
+  },
+  {
+    "matchId": "1",
+    "eventType": 370,
+    "eventSeq": 3,
+    "createDate": "2025-09-02T23:14:03.3960337+02:00",
+    "addedToResult": "2025-09-02T23:14:06.5062633+02:00"
+  },
+  {
+    "matchId": "1",
+    "eventType": 369,
+    "eventSeq": 4,
+    "createDate": "2025-09-02T23:14:03.3960337+02:00",
+    "addedToResult": "2025-09-02T23:14:07.5086063+02:00"
+  }
+]
+~~~
+
+Second implementation can be tested with POST on /api/v1/match/event/file and uploading a file. Once it is inserted into DB result can be retrieved with GET from /api/v1/match/{matchId}.
+For example sr:match:14181885 returns this: 
+~~~
+[
+  {
+    "matchId": "sr:match:14181885",
+    "marketId": 520,
+    "outcomeId": "4",
+    "specifiers": "gamenr=1|pointnr=30",
+    "dateInserted": "2025-09-02T23:17:39.911069+02:00"
+  },
+  {
+    "matchId": "sr:match:14181885",
+    "marketId": 238,
+    "outcomeId": "13",
+    "specifiers": "total=74.5",
+    "dateInserted": "2025-09-02T23:17:39.922965+02:00"
+  },
+  {
+    "matchId": "sr:match:14181885",
+    "marketId": 520,
+    "outcomeId": "5",
+    "specifiers": "gamenr=2|pointnr=40",
+    "dateInserted": "2025-09-02T23:17:39.935108+02:00"
+  },
+  ...
+~~~
 
 
 ### Clarification, thought process
@@ -55,11 +168,12 @@ lorem ipsum
 - It seems I did unnecessary implementation - trying to parse real data that is not according to instructions. Well at least it will be good to check with "real" data :)  
 - Created result keeper for faster responses. In RL would analyse and probably would divide into  something that requires fast (cached) response and something that doesn't need fast response (like historical data). Would think about multiple levels of caching. 
 - Caching: Using KISS caching. Simple deque for X elements. We would go into DB for more. Right now thinking about caffeine cause I remember that it is commonly (most mentioned when i talk to people) used, has great compression. In scalable solution would use redis. 
-- Thinking about how to enter data
+- Thinking about how to enter data EDIT: Postgres has fast copy for insertions. 
+- Speeding up: probably should know if the calculations have commutative properties. If they are heavy computation (O(n^x)) problems and should be divided between computors (divide and conquer or something similar approach).
+- Utility became mapper unintentionally.
+- In conclusion there were many unknowns, needs for clarification. Did what I thought was expected from this two tasks. 
 
 
 ### TODO:
 
-- [ ] Unit tests
-- [ ] Integration tests
-- [ ] complete readme  
+- [x] complete readme  

@@ -1,4 +1,7 @@
 package si.paurus.assignment.tasktwo.model;
 
-public record EventBO(String matchId, Long eventType, Long eventSeq) {
+import java.time.OffsetDateTime;
+
+
+public record EventBO(String matchId, Integer marketId, String outcomeId, String specifiers, OffsetDateTime dateInserted) {
 }
