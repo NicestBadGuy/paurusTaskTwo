@@ -49,7 +49,14 @@ lorem ipsum
 - ~~On my home development machine docker is disabled because of random BSOD. I have one MySQL server in my local network. So decision is based really on convenience.~~ Will use H2 for your convenience. If this was "real development" I would configure PostgreSQL because it's known for its speed, parrallelization and I've had less concurrency issues (comparing with MySQL where I had to debug some random locks). Using PostreSQL mode of H2 because of that reason.
 - I've also added local-dev properties to see what would otherwise be in .gitignore
 - I'm using hibernates mechanism for creating DB. Again if this was "real development" I would use Flyway for changes and use hibernates "validate" value for validation of changes.
-- 
+- After weekend of kitchen renovation I've come to the conclusion that there is a high probability task 2 wasnt meant to be a complex solution. I'm going with simple approach: insertion, caching, indexing... If I'm mistaken and that was not expected i can presented a more complex solution in an interview.
+- Doing a REST service. Would use WebFlux if I would implement stream service
+- So much information to gather before this would be a RL impl... 
+- It seems I did unnecessary implementation - trying to parse real data that is not according to instructions. Well at least it will be good to check with "real" data :)  
+- Created result keeper for faster responses. In RL would analyse and probably would divide into  something that requires fast (cached) response and something that doesn't need fast response (like historical data). Would think about multiple levels of caching. 
+- Caching: Using KISS caching. Simple deque for X elements. We would go into DB for more. Right now thinking about caffeine cause I remember that it is commonly (most mentioned when i talk to people) used, has great compression. In scalable solution would use redis. 
+- Thinking about how to enter data
+
 
 ### TODO:
 
